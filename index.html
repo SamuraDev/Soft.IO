@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Случайная картинка со светлячками</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(270deg, #1c1c1c, #2c2c2c, #3c3c3c, #1a1a1a, #0f0f0f);
+            background-size: 1000% 1000%;
+            animation: gradientBackground 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        main {
+            margin-top: 100px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        img {
+            max-width: 30%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        footer a {
+            color: #feb47b;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .firefly {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 0, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+            animation: moveFirefly 10s linear infinite, blinkFirefly 2s infinite ease-in-out alternate;
+        }
+
+        @keyframes moveFirefly {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(calc(100vw - 10px), calc(100vh - 10px));
+            }
+        }
+
+        @keyframes blinkFirefly {
+            0%, 80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Галерея случайных картинок
+    </header>
+
+    <main>
+        <img id="randomImage" src="" alt="Случайная картинка">
+        <button onclick="showNextImage()">Следующая картинка</button>
+    </main>
+
+    <footer>
+        © 2024 Галерея картинок. Все права защищены. | <a href="#">Контакты</a> | <a href="#">Политика конфиденциальности</a>
+    </footer>
+
+    <script>
+        const imageFiles = [
+            'image1.jpg',
+            'image2.png',
+            'image3.png',
+            'image4.png',
+            'image5.png',
+        ];
+
+        function getRandomImage() {
+            const randomIndex = Math.floor(Math.random() * imageFiles.length);
+            return `img/${imageFiles[randomIndex]}`;
+        }
+
+        function showNextImage() {
+            const imageElement = document.getElementById('randomImage');
+            imageElement.style.opacity = 0;
+            setTimeout(() => {
+                imageElement.src = getRandomImage();
+                imageElement.style.opacity = 1;
+            }, 500);
+        }
+
+        document.getElementById('randomImage').src = getRandomImage();
+
+        function createFirefly() {
+            const firefly = document.createElement('div');
+            firefly.classList.add('firefly');
+
+            firefly.style.top = `${Math.random() * 100}vh`;
+            firefly.style.left = `${Math.random() * 100}vw`;
+            firefly.style.animationDelay = `${Math.random() * 5}s`;
+            firefly.style.animationDuration = `${5 + Math.random() * 10}s`;
+
+            document.body.appendChild(firefly);
+
+            setTimeout(() => {
+                firefly.remove();
+            }, 15000);
+        }
+
+        for (let i = 0; i < 50; i++) {
+            createFirefly();
+        }
+
+        setInterval(createFirefly, 2000);
+    </script>
+</body>
+</html>
